@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<h1>one.html 입니다</h1>
+<img src="{% static 'image/baby_lion.jpg' %}" alt="baby_lion" class="baby_lion">
+<a href="{% url 'two' %}">two</a>
+
+
+
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+{% if user.is_authenticated %}
+안녕 {{ user.username }}!
+<a href="{% url 'account_logout' %}">logout</a>
+<a href="{% url 'products:create' %}">새 글 쓰기</a>
+<!-- <p>===========================</p>
+{% for post in products %}
+<a href="{% url 'products:show' post.id %}"><h2>#{{ post.id }} : {{ post.title }}</h2></a>
+<p>쓰니: {{ post.username }}</p>
+<p>===========================</p>
+{% empty %}
+<p>글이 없습니다.</p>
+{% endfor %} -->
+
+{% else %}
+<p>You are not logged in</p>
+<a href="{% url 'account_login' %}">login</a>
+{% endif %}
+
+    <!--html에서 변수를 쓰려면 views에서 3번쨰 인자로 dictionary 타입으로 모든 인자를 받아야 함-->
+    <!--각각의 인자로 쪼개서 반복문 써서 모든 인자에 카드를 씌워야 함-->
+
+    <div class="row">
+        {% for item in products %} <!--products는 views에서 3번째 key값으로 던져준 값. 이걸 items로 쪼갬-->
+        
+        <!-- <div class="card col-4" style="width: 18rem;"> 
+            <div class="card-body">
+                <h5 class="card-title">{{ item.title }}</h5>
+                <h3 class="card-subtitle">{{ item.price }} 원</h3>
+                <p class="card-text">{{ item.description }}</p>
+                <a href="{% url 'products:show' item.pk %}" class="btn btn-secondary">상세 보기</a>
+            </div>
+        </div> -->
+    
+        <div class="card col-4" style="width: 18rem;"><!--col이 총 12 사이즈인데 col-4로 4로 나눴으므로 전체 3개씩 뜨게 됨-->
+            {% if item.image %} <!--조건문 써야 image없어도 에러 안뜸-->
+                <img src="{{ item.image.url }}" class="card-img-top" alt="...">
+            {% endif %}
+            <div class="card-body">
+                <h3 class="card-title">{{ item.title }}</h3>
+                <h5 class="card-subtitle">{{ item.price }} 원</h5>
+                <p class="card-text">{{ item.description }}</p>
+                <a href="{% url 'products:show' item.pk %}" class="btn btn-secondary">상세 보기</a>
+                <!--디버깅: ' products:show' 스페이스 한칸도 에러 뜸-->
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
+
+
+
+
+{% endblock %}
